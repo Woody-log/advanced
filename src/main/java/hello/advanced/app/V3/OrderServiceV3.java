@@ -1,6 +1,5 @@
 package hello.advanced.app.V3;
 
-import hello.advanced.trace.TraceId;
 import hello.advanced.trace.TraceStatus;
 import hello.advanced.trace.logtrace.LogTrace;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +12,12 @@ public class OrderServiceV3 {
     private final OrderRepositoryV3 orderRepository;
     private final LogTrace trace;
 
-    public void orderItem(TraceId traceId, String itemId) {
+    public void orderItem(String itemId) {
 
         TraceStatus status = null;
         try {
             status = trace.begin("OrderService.orderItem()");
-            orderRepository.save(status.getTraceId(), itemId);
+            orderRepository.save(itemId);
             trace.end(status);
         } catch (Exception e) {
             trace.exception(status, e);
